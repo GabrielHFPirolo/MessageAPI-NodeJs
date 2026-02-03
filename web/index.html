@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Atendimentos</title>
+</head>
+<body>
+    <header>
+        <h1>Atendimentos</h1>
+    </header>
+
+    <div class="city-tabs">
+        <button class="city-btn active" data-cidade="todas">Todas</button>
+        <button class="city-btn" data-cidade="Cornélio Procópio">Cornélio Procópio</button>
+        <button class="city-btn" data-cidade="Londrina">Londrina</button>
+        <button class="city-btn" data-cidade="Uraí">Uraí</button>
+        <button class="city-btn" data-cidade="Sorocaba">Sorocaba</button>
+        <button class="city-btn" data-cidade="Botucatu">Botucatu</button>
+        <button class="city-btn" data-cidade="São Jerônimo da Serra">São Jerônimo da Serra</button>
+        <button class="city-btn" data-cidade="Limeira">Limeira</button>
+    </div>
+
+    <main id="cards-container"></main>
+
+    <script src="./js/main.js" defer></script>
+
+    <div id="modal-confirmacao" class="modal hidden">
+    <div class="modal-content">
+        <h3>Concluir atendimento</h3>
+        <p>Tem certeza que deseja concluir este atendimento?</p>
+
+        <div class="modal-actions">
+            <button id="btn-confirmar" class="btn_confirmar">Confirmar</button>
+            <button id="btn-cancelar" class="btn_cancelar">Cancelar</button>
+        </div>
+    </div>
+    </div>
+
+    <div id="toast" class="hidden">
+        Atendimento concluído com sucesso
+    </div>
+</body>
+</html>
