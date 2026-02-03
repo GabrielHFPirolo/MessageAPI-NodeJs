@@ -2,6 +2,11 @@
 
 Protótipo de sistema para organização e acompanhamento de atendimentos recebidos via WhatsApp, com foco em automação, clareza e controle humano.
 
+## Histórico de Versionamento
+
+Este repositório possui um commit inicial único pois foi estruturado originalmente como parte de um projeto interno e privado.  
+O histórico de commits anterior não foi exportado para esta versão pública.
+
 ## Sobre o Projeto
 
 O MessageAtendimentoAPI é um projeto experimental que explora como automações, APIs e interfaces simples podem melhorar o fluxo de atendimento em escritórios jurídicos e ambientes administrativos semelhantes.
