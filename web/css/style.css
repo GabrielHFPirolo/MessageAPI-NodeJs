@@ -1,0 +1,392 @@
+:root{
+    --primary: #7797ca;
+    --primary-hover: #5176b3;
+
+    --secundary: #5dc57c;
+    --secundary-hover: #42925a;
+
+    --bg-card: #ffffff;
+    --bg-page: #f8fafc;
+
+    --radius: 8px;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+}
+
+header {
+    background: #1e293b;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+#cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 16px;
+    margin: 14px;
+    border-left: 6px solid #4a7cce;
+    transition:
+        box-shadow 200ms ease,
+        transform 200ms ease;
+}
+
+.card:hover{
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card h3 {
+    margin: 0 0 16px;
+}
+
+.card p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.card.em_atendimento {
+    border-left: 6px solid #22c55e;
+    background: #f0fdf4;
+}
+
+.timestamp {
+    font-size: 14px;
+    color: #444444;
+}
+
+.actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    margin-top: 14px;
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition:
+    background-color 150ms ease,
+    transform 100ms ease,
+    box-shadow 100ms ease;
+}
+
+.btn-whatsapp {
+    background: var(--secundary);
+    color: white;
+}
+
+.btn-whatsapp:hover {
+  background: var(--secundary-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-status{
+    background: var(--primary);
+    color: white;
+}
+
+.btn-status:hover {
+    background: var(--primary-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    width: 320px;
+    text-align: center;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal .btn {
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btn_confirmar {
+    background: #65addd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin: 6px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 16px;
+    height: 50px;
+    width: 140px;
+}
+
+.btn_cancelar {
+    font-size: 16px;
+    height: 50px;
+    width: 140px;
+    background: #e5e7eb;
+    border: none;
+    border-radius: 6px;
+    margin: 6px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+#toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #16a34a;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2000;
+}
+
+#toast.show {
+    opacity: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+.city-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding-left: 35px;
+}
+
+.city-btn {
+    position: relative;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #c0d0ee;
+    font-weight: 600;
+    transition: 
+    background-color 150ms ease,
+    transform 100ms ease,
+    box-shadow 100ms ease;
+}
+
+.city-btn:hover{
+    background: #8dabec;
+    box-shadow: var(--shadow-sm);
+}
+
+.city-btn.active {
+    background: #2563eb;
+    color: white;
+}
+
+.city-btn .badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #dc2626;
+  color: white;
+  font-size: 12px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anexos {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.anexo-item {
+  background: #f1f3f5;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.anexo-item:hover {
+    background: #d5d6d8;
+}
+
+.anexo-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.sem-anexo {
+  color: #838383;
+  font-size: 12px;
+}
+
+.anexos-loading {
+  font-size: 12px;
+  color: #777;
+}
+
+.header-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #cbd5f5;
+}
+
+.btn-logout {
+    position:absolute;
+    right: 28px;
+
+    padding: 8px 14px;
+    font-size: 14px;
+
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    background-color: #ef4444;
+    color: white;
+
+    transition: background 0.2s ease transform 0.1s ease;
+}
+
+.btn-logout:hover {
+    background-color: #dc2626;
+    transform: scale(0.97);
+}
+
+.login-box {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0e1b55, #020617);
+}
+
+.login-card {
+    width: 340px;
+    padding: 32px;
+
+    background: #020617;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    border: 1px solid #334155;
+    color: #f8fafc;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+.login-field {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.login-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #cbd5f5;
+}
+
+.login-field input {
+    width: 100%;
+    padding: 10px;
+
+    border-radius: 6px;
+    border: 1px solid #334155;
+    background-color: #0f172a;
+
+    color: #fff;
+}
+
+.login-field input:focus {
+    outline: none;
+    border-color: #38bdf8;
+}
+
+.btn-login {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    background: #38bdf8;
+    color: #020617;
+    font-weight: 600;
+
+    transition: background 0.2s ease, transform 0.1s ease;
+
+    
+}
+
+.btn-login:hover {
+    background: #0ea5e9;
+    transform: translateY(-1px);
+}
