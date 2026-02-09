@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 import { supabaseService } from "../database/supabase.js"
 import { mapAnexo } from "../models/Atendimento.js"
+=======
+import { supabase } from "../database/supabase.js"
+>>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
 
 class AtendimentoController {
     // Função para Create - POST
     async create(req, res){
         const {nome, cpf, cidade, desejo, telefone} = req.body
         
+<<<<<<< HEAD
         const {data, error} = await supabaseService
+=======
+        const {data, error} = await supabase
+>>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
         .from('Atendimentos')
         .insert([{
             nome,
@@ -32,7 +40,11 @@ class AtendimentoController {
     // Função Listagem - GET
     async list(req, res){
         const {status} = req.query
+<<<<<<< HEAD
         let query = supabaseService.from('Atendimentos').select('*')
+=======
+        let query = supabase.from('Atendimentos').select('*')
+>>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
         if (status) query = query.eq('status', status)
         const {data, error} = await query.order('created_at', {ascending: false})
         
@@ -53,7 +65,11 @@ class AtendimentoController {
                 return res.status(400).json({ error: 'ID não informado' })
             }
 
+<<<<<<< HEAD
             const { data, error} = await supabaseService
+=======
+            const { data, error} = await supabase
+>>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
             .from('Atendimentos')
             .update({status})
             .eq('id', id)
@@ -73,6 +89,7 @@ class AtendimentoController {
     }
 }
 
+<<<<<<< HEAD
 export async function listarAnexos(req, res) {
     const { id } = req.params
 
@@ -111,4 +128,6 @@ export async function listarAnexos(req, res) {
     }
 }
 
+=======
+>>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
 export default new AtendimentoController()

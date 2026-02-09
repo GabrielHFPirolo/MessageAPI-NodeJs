@@ -130,20 +130,28 @@ function renderizarCards() {
                 <span class="anexos-loading">Carregando Anexos...</span>
             </div>
 
-            <div class="actions">
-                <button class="btn btn-whatsapp"
-                onclick="AtendimentoIniciado(${a.id}, this.closest('.card'), '${whatsappUrl}')">
-                Whatsapp
-                </button>
-
-                <button class="btn btn-status"
-                onclick="abrirModal(${a.id}, this.closest('.card'))">
-                Concluído
-                </button>
-            </div>
+            <div class="actions"></div>
         `
-        container.appendChild(card)
+        const actions = card.querySelector('.actions')
 
+        const btnWhatsapp = document.createElement('button')
+        btnWhatsapp.className = 'btn btn-whatsapp'
+        btnWhatsapp.textContent = 'Whatsapp'
+        btnWhatsapp.addEventListener('click', () => {
+            AtendimentoIniciado(a.id, card, whatsappUrl)
+        })
+
+        const btnConcluido = document.createElement('button')
+        btnConcluido.className = 'btn btn-status'
+        btnConcluido.textContent = 'Concluído'
+        btnConcluido.addEventListener('click', () => {
+            abrirModal(a.id, card)
+        })
+
+        actions.appendChild(btnWhatsapp)
+        actions.appendChild(btnConcluido)
+
+        container.appendChild(card)
         buscarAnexos(a.id)
     })
 }

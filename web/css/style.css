@@ -40,7 +40,10 @@ header {
     box-shadow: var(--shadow-sm);
     padding: 16px;
     margin: 14px;
+<<<<<<< HEAD
     border-left: 6px solid #4a7cce;
+=======
+>>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
     transition:
         box-shadow 200ms ease,
         transform 200ms ease;
@@ -243,6 +246,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
 }
 
 .anexos {
@@ -389,4 +393,6 @@ header {
 .btn-login:hover {
     background: #0ea5e9;
     transform: translateY(-1px);
+=======
+>>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
 }
