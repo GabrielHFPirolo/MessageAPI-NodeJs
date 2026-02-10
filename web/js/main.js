@@ -27,7 +27,7 @@ function showApp() {
 
 function showLogin() {
     document.getElementById('app').style.display = 'none'
-    document.getElementById('login-box').style.display = 'block'
+    document.getElementById('login-box').style.display = 'flex'
 }
 
 //Modal - Confirmação para conclusão de atendimento
