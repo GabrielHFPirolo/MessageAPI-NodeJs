@@ -42,23 +42,68 @@ Transformar mensagens recebidas via WhatsApp em registros estruturados, exibidos
 
 Tudo isso mantendo controle humano em cada etapa.
 
-🧾 Painel Web
+## 🧾 Painel Web
 
-- Visualização em cards
-
-- Filtro por cidade
+- Visualização em cards  
+- Filtro por cidade  
 
 Estados visuais por status:
 
-- novo
+- novo  
+- em_atendimento  
+- finalizado  
 
-- em_atendimento
+- Contadores de atendimentos novos (badges)  
+- Atualização de status em tempo real  
 
-- finalizado
+---
 
-- Contadores de atendimentos novos (badges)
+### 🔎 Pesquisa Dinâmica de Atendimentos
 
-- Atualização de status em tempo real
+O painel agora conta com um campo de pesquisa inteligente que permite localizar atendimentos em tempo real por:
+
+- Nome  
+- CPF  
+- Telefone  
+
+**Como funciona**
+
+- O usuário digita no campo de busca.
+- O frontend aplica um pequeno debounce para evitar requisições excessivas.
+- A busca é enviada ao backend via query parameter `?search=`.
+- O backend filtra os registros no banco (Supabase/PostgreSQL) utilizando critérios parciais (`ILIKE`), permitindo correspondências aproximadas.
+- O resultado é retornado já filtrado e renderizado dinamicamente.
+
+Essa funcionalidade melhora significativamente a velocidade da triagem e reduz o tempo de localização de registros antigos ou em andamento.
+
+---
+
+### 📝 Anotações Internas por Atendimento
+
+Foi adicionada uma funcionalidade de **notas internas vinculadas individualmente a cada atendimento**, permitindo registrar observações internas que não ficam visíveis ao cliente.
+
+Cada card possui agora um botão **"Notas"**, que abre um modal dedicado contendo:
+
+- Lista de notas vinculadas ao atendimento  
+- Data e horário de criação  
+- Campo para criação de nova anotação  
+- Persistência em banco  
+
+**Estrutura Técnica**
+
+- As notas são armazenadas na tabela `NotasInternas` no Supabase.
+- Cada nota possui vínculo com o atendimento através do campo `atendimento_id`.
+- A listagem é carregada via rota dedicada:
+
+GET /atendimento/:id/notas
+
+
+- A criação de notas é feita via:
+
+POST /atendimento/:id/notas
+
+
+- As notas são ordenadas por `created_at` (mais recentes primeiro).
 
 ## 🛠️ Stack Utilizada
 **Backend**
