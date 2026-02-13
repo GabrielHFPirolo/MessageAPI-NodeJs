@@ -7,6 +7,9 @@ let atendimentoSelecionado = null
 let cardSelecionado = null
 let atendimentosCache = []
 let cidadeSelecionada = 'todas'
+let searchAtual = ''
+let timeoutBusca
+let atendimentoNotaAtual = null
 
 //Funções Normais de suporte
 
@@ -42,6 +45,18 @@ function fecharModal() {
   document.getElementById('modal-confirmacao').classList.add('hidden')
   atendimentoSelecionado = null
   cardSelecionado = null
+}
+
+function abrirModalNotas(id) {
+    atendimentoNotaAtual = id
+    document.getElementById('modal-notas').classList.remove('hidden')
+    document.getElementById('modal-notas').classList.add('ativo')
+    carregarNotas(id)
+}
+
+function fecharModalNotas() {
+    document.getElementById('modal-notas').classList.remove('ativo')
+    document.getElementById('modal-notas').classList.add('hidden')
 }
 
 // Toast - Notificação confirmando atendimento finalizado
@@ -148,8 +163,16 @@ function renderizarCards() {
             abrirModal(a.id, card)
         })
 
+        const btnNotas = document.createElement('button')
+        btnNotas.className = 'btn btn-notas'
+        btnNotas.textContent = 'Notas'
+        btnNotas.addEventListener('click', () => {
+            abrirModalNotas(a.id)
+        })
+
         actions.appendChild(btnWhatsapp)
         actions.appendChild(btnConcluido)
+        actions.appendChild(btnNotas)
 
         container.appendChild(card)
         buscarAnexos(a.id)
@@ -159,7 +182,17 @@ function renderizarCards() {
 //Funções Assíncronas
 //Requisição para carregamento dos Cards
 async function carregarAtendimentos(){
-    const res = await fetch(API_URL, {
+    const params = new URLSearchParams()
+
+    if (searchAtual && searchAtual.trim() !== '') {
+        params.append('search', searchAtual.trim())
+    }
+
+    const url = params.toString()
+    ? `${API_URL}?${params.toString()}`
+    : API_URL
+
+    const res = await fetch(url, {
         headers: {
             'Authorization': `Bearer ${getToken()}`
         }
@@ -247,6 +280,58 @@ async function buscarAnexos(atendimentoId) {
     }
 }
 
+async function carregarNotas(id) {
+    const res = await fetch(`${API_URL}/${id}/notas`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`
+        }
+    })
+
+    if(!res.ok) {
+        console.error("Erro ao buscar notas")
+        return
+    }
+
+    const notas = await res.json()
+
+    if (!Array.isArray(notas)) {
+        console.error("Resposta Inesperada:", notas)
+        return
+    }
+
+    const container = document.getElementById('lista-notas')
+    container.innerHTML = ''
+
+    notas.forEach(n => {
+        const div = document.createElement('div')
+        div.className = 'nota-item'
+        div.innerHTML =`
+            <p>${n.nota}</p>
+            <small>${formatarData(n.created_at)}</small>
+        `
+        container.appendChild(div)
+    })
+}
+
+document.getElementById('salvar-nota')
+.addEventListener('click', async () => {
+    const texto = document.getElementById('nova-nota').value
+
+    if (!texto.trim()) return
+
+    await fetch(`${API_URL}/${atendimentoNotaAtual}/notas`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        },
+        body: JSON.stringify({nota: texto})
+    })
+
+    document.getElementById('nova-nota').value = ''
+    carregarNotas(atendimentoNotaAtual)
+})
+
 function renderizarAnexos(atendimentoId, anexos){
     const container = document.getElementById(`anexos-${atendimentoId}`)
 
@@ -327,4 +412,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showApp()
     carregarAtendimentos()
+})
+
+document.getElementById('input-search')?.addEventListener('input', (e) => {
+    clearTimeout(timeoutBusca)
+
+    timeoutBusca = setTimeout(() => {
+        searchAtual = e.target.value
+        carregarAtendimentos()
+    }, 300)
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnFechar = document.getElementById('fechar-nota')
+
+    if(btnFechar) {
+        btnFechar.addEventListener('click', fecharModalNotas)
+    }
 })
