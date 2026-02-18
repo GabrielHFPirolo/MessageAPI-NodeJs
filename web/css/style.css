@@ -317,7 +317,7 @@ header {
 
 .btn-logout:hover {
     background-color: #dc2626;
-    transform: scale(0.97);
+    transform: scale(1.03);
 }
 
 .login-box {

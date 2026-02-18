@@ -305,9 +305,12 @@ async function carregarNotas(id) {
     notas.forEach(n => {
         const div = document.createElement('div')
         div.className = 'nota-item'
+
         div.innerHTML =`
             <p>${n.nota}</p>
-            <small>${formatarData(n.created_at)}</small>
+            <small>
+            ${n.users?.username || 'Usuário indefinido'} • ${formatarData(n.created_at)}
+            </small>
         `
         container.appendChild(div)
     })

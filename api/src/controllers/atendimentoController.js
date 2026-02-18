@@ -151,7 +151,15 @@ export async function ListarNotas(req, res) {
 
     const {data, error} = await supabaseService
     .from('NotasInternas')
-    .select('*')
+    .select(`
+        id,
+        nota,
+        created_at,
+        autor_id,
+        users (
+            username
+        )    
+    `)
     .eq('atendimento_id', id)
     .order('created_at', {ascending: false})
 
