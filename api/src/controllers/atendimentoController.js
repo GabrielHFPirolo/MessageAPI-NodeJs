@@ -69,9 +69,29 @@ class AtendimentoController {
                 return res.status(400).json({ error: 'ID não informado' })
             }
 
-            const { data, error} = await supabaseService
+            const updateData = {
+                status,
+                updated_at: new Date().toISOString()
+            }
+
+            if (status === 'finalizado') {
+                updateData.concluido_por = req.user.id
+                updateData.concluido_em = new Date().toISOString()
+            }
+
+            if (status !== 'finalizado') {
+                updateData.concluido_por = null
+                updateData.concluido_em = null
+            }
+
+            if (status === 'em_atendimento') {
+                updateData.iniciado_por = req.user.id
+                updateData.iniciado_em = new Date().toISOString()
+            }
+
+            const { data, error } = await supabaseService
             .from('Atendimentos')
-            .update({status})
+            .update(updateData)
             .eq('id', id)
             .select()
             .single()
