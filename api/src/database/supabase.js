@@ -8,7 +8,6 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error('Supabase env vars not set');
 }
 
-<<<<<<< HEAD
 export const supabaseAnon  = createClient (
   supabaseUrl,
   supabaseKey
@@ -17,9 +16,4 @@ export const supabaseAnon  = createClient (
 export const supabaseService = createClient (
   supabaseUrl,
   supabaseKey
-=======
-export const supabase = createClient (
-    supabaseUrl,
-    supabaseKey
->>>>>>> 34c235853d7b814ea50a75510e1625ad6ee1d0e4
 )

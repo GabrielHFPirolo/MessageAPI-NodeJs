@@ -179,7 +179,6 @@ function renderizarCards() {
     })
 }
 
-//Funções Assíncronas
 //Requisição para carregamento dos Cards
 async function carregarAtendimentos(){
     const params = new URLSearchParams()
@@ -433,3 +432,19 @@ document.addEventListener('DOMContentLoaded', () => {
         btnFechar.addEventListener('click', fecharModalNotas)
     }
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    if(user?.role === 'admin') {
+        document.getElementById('btn-admin').style.display = 'block'
+    }
+})
+
+const btnAdmin = document.getElementById('btn-admin')
+
+if (btnAdmin) {
+    btnAdmin.addEventListener('click', () => {
+        window.location.href = '/admin.html'
+    })
+}

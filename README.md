@@ -174,3 +174,10 @@ Tokens inválidos ou expirados resultam em HTTP 401 (Unauthorized).
 - A tabela interna de usuários utiliza RLS (Row Level Security) para reforçar a proteção dos dados.
 
 Essa abordagem separa claramente autenticação (Supabase) de autorização (JWT + roles), garantindo flexibilidade, segurança e escalabilidade para o sistema.
+
+## 🗂 Estrutura do Banco de Dados
+
+A modelagem completa das tabelas pode ser consultada em:
+
+➡️ [`docs/schemas.md`](docs/schemas.md)
+

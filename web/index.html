@@ -28,14 +28,23 @@
     </div>
     <div id="app" style="display: none;">
         <header>
-            <input 
-                type="text" 
-                id="input-search" 
-                placeholder="Pesquisar"
-                class="search-input"
-            />
-            <h1 class="header-title">Atendimentos</h1>
-            <button id="logoutBtn" class="btn-logout">Sair</button>
+            <div class="header-left">
+                <h1 class="header-title">Atendimentos</h1>
+            </div>
+
+            <div class="header-center">
+                <input 
+                    type="text" 
+                    id="input-search" 
+                    placeholder="Pesquisar"
+                    class="search-input"
+                />
+            </div>
+
+            <div class="header-right">
+                <button id="btn-admin" class="btn-admin">Painel Admin</button>
+                <button id="logoutBtn" class="btn-logout">Sair</button>
+            </div>
         </header>
 
         <div class="city-tabs">

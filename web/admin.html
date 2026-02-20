@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/admin.css">
+    <title>Painel Administrativo</title>
+</head>
+<body>
+    <div class="admin-wrapper">
+
+        <header class="admin-header">
+            <h1>Painel de Atividades</h1>
+            <button onclick="window.location.href='index.html'" class="btn-voltar">
+                Voltar
+            </button>
+        </header>
+
+        <section class="admin-metricas">
+            <!-- Cards principais -->
+            <div class="card" id="card-tempo"></div>
+            <div class="card" id="card-total-iniciados"></div>
+            <div class="card" id="card-total-finalizados"></div>
+        </section>
+
+        <section class="admin-listas">
+            <div class="lista-box">
+                <h2>Iniciados por Usuário</h2>
+                <ul id="lista-iniciados"></ul>
+            </div>
+
+            <div class="lista-box">
+                <h2>Finalizados por Usuário</h2>
+                <ul id="lista-finalizados"></ul>
+            </div>
+
+            <div class="lista-box">
+                <h2>Em Andamento</h2>
+                <ul id="lista-andamento"></ul>
+            </div>
+        </section>
+
+    </div>
+    <script type="module" src="./js/admin.js" defer></script>
+</body>
+</html>
