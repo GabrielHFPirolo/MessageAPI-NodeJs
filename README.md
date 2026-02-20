@@ -105,6 +105,39 @@ POST /atendimento/:id/notas
 
 - As notas são ordenadas por `created_at` (mais recentes primeiro).
 
+---
+
+### 📊 Painel Administrativo
+
+O sistema conta agora com um Painel Administrativo acessível apenas para usuários com role: admin.
+O acesso é realizado através do botão "Painel Admin" exibido no header da aplicação principal (visível somente para administradores).
+
+**Funcionalidades**
+
+O painel exibe métricas de produtividade baseadas nos atendimentos registrados:
+
+- Quantidade de atendimentos iniciados por usuário
+- Quantidade de atendimentos finalizados por usuário
+- Atendimentos em andamento por usuário
+- Tempo médio de conclusão dos atendimentos
+
+**Como funciona**
+
+Os dados são processados no backend através da rota protegida:
+
+`GET /admin/atividade`
+
+Essa rota realiza:
+
+- Consulta à tabela Atendimentos
+- Relacionamento (FK) com a tabela de Users
+- Agregação de dados por username
+- Cálculo de tempo médio entre iniciado_em e concluido_em
+
+O acesso é protegido via JWT e middleware de verificação de perfil administrador.
+
+Usuários não administradores não possuem acesso à rota nem ao botão de navegação.
+
 ## 🛠️ Stack Utilizada
 **Backend**
 
