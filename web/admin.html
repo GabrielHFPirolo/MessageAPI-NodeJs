@@ -40,7 +40,43 @@
             </div>
         </section>
 
+        <section class="admin-table-section">
+            <h2>Últimos Atendimentos</h2>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuário</th>
+                        <th>Status</th>
+                        <th>Início</th>
+                        <th>Conclusão</th>
+                        <th>Tempo</th>
+                    </tr>
+                </thead>
+
+                <tbody id="admin-table-body">                    
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="grafico-box">
+            <div class="grafico-header">
+                <div>
+                    <h2>Relação de Atendimentos</h2>
+                    <p class="grafico-subtitle">
+                        Visão consolidada dos status atuais
+                    </p>
+                </div>
+            </div>
+              
+            <div class="grafico-container">
+                <canvas id="graficoAtendimentos"></canvas>
+            </div>
+        </section>
+
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="./js/admin.js" defer></script>
 </body>
 </html>
