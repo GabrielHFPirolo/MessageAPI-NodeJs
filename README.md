@@ -138,6 +138,7 @@ O acesso é protegido via JWT e middleware de verificação de perfil administra
 
 Usuários não administradores não possuem acesso à rota nem ao botão de navegação.
 
+
 ## 🛠️ Stack Utilizada
 **Backend**
 
@@ -208,9 +209,82 @@ Tokens inválidos ou expirados resultam em HTTP 401 (Unauthorized).
 
 Essa abordagem separa claramente autenticação (Supabase) de autorização (JWT + roles), garantindo flexibilidade, segurança e escalabilidade para o sistema.
 
+## 📌 Criando um Atendimento via API (Postman)
+
+Para cadastrar um novo atendimento manualmente via API, siga os passos abaixo utilizando o Postman ou ferramenta similar.
+
+🔹 **Endpoint**
+
+`POST /atendimento`
+
+Exemplo:
+
+https://seu-dominio/atendimento
+
+🔹 **Autenticação**
+
+A rota exige autenticação via Bearer Token.
+
+**No Postman:**
+
+- Vá em Authorization
+- Selecione tipo: Bearer Token
+- Insira o token JWT obtido no login ou manualmente no Header:
+
+`Authorization: Bearer SEU_TOKEN_AQUI`
+
+🔹 **Headers obrigatórios**
+
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_AQUI
+
+🔹 **Body (JSON)**
+
+Selecione Body → raw → JSON e envie:
+
+{
+  "nome": "João da Silva",
+  "cpf": "12345678901",
+  "cidade": "Cidade",
+  "desejo": "Desejo atendimento especializado",
+  "telefone": "43999999999"
+}
+
+## 👤 Criando um Usuário para Acesso ao Sistema
+
+O sistema utiliza autenticação do Supabase (auth.users), mas o login é realizado via username + senha.
+
+Internamente, o sistema converte o username em um email no formato:
+
+`username@internal.local`
+
+🔹 **Passo 1** — Criar usuário no Supabase (auth.users)
+
+- Acesse o painel do Supabase
+- Vá em Authentication → Users
+- Clique em Add User
+Preencha:
+
+`Email: username@internal.local
+Password:	senha desejada`
+
+🔹 **Passo 2** — Inserir na tabela pública users
+
+Após criar no auth.users, copie o UUID gerado.
+
+Execute:
+
+`insert into public.users (id, username, role)
+values (
+  'UUID_GERADO_PELO_SUPABASE',
+  'gabriel',
+  'admin'
+);`
+
+*⚠️ O id deve ser exatamente o mesmo de auth.users.*
+
 ## 🗂 Estrutura do Banco de Dados
 
 A modelagem completa das tabelas pode ser consultada em:
 
 ➡️ [`docs/schemas.md`](docs/schemas.md)
-
