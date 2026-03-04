@@ -1,6 +1,5 @@
 import { getToken, login } from "./auth.js"
-
-const API_URL = 'http://localhost:3333/atendimento'
+import { API_ATENDIMENTO } from "./config.js"
 
 // Declaração Variáveis escopo global
 let atendimentoSelecionado = null
@@ -10,6 +9,7 @@ let cidadeSelecionada = 'todas'
 let searchAtual = ''
 let timeoutBusca
 let atendimentoNotaAtual = null
+let uiResolve = null
 
 //Funções Normais de suporte
 
@@ -17,10 +17,17 @@ function Logged() {
     return !!getToken()
 }
 
-function logout() {
-    if (!confirm('Deseja sair?')) return
-    localStorage.removeItem('token')
-    location.reload()
+async function logout() {
+    const confirmou = await abrirModalUI({
+        title: 'Sair',
+        message: 'Deseja realmente sair?',
+        type: 'confirm'
+    })
+
+    if (confirmou) {
+        localStorage.removeItem('token')
+        location.reload()
+    }
 }
 
 function showApp() {
@@ -58,6 +65,36 @@ function fecharModalNotas() {
     document.getElementById('modal-notas').classList.remove('ativo')
     document.getElementById('modal-notas').classList.add('hidden')
 }
+
+function abrirModalUI({title, message, type = 'alert'}) {
+    return new Promise((resolve) => {
+        document.getElementById('ui-modal-title').textContent = title
+        document.getElementById('ui-modal-message').textContent = message
+        
+        const cancelBtn = document.getElementById('ui-modal-cancel')
+
+        cancelBtn.style.display = 
+            type === 'confirm' ? 'inline-block' : 'none'
+
+        document.getElementById('ui-modal').classList.remove('hidden')
+
+        uiResolve = resolve
+    })
+}
+
+function fecharModalUI() {
+    document.getElementById('ui-modal').classList.add('hidden')
+}
+
+document.getElementById('ui-modal-ok').addEventListener('click', () => {
+    fecharModalUI()
+    if (uiResolve) uiResolve(true)
+})
+
+document.getElementById('ui-modal-cancel').addEventListener('click', () => {
+    fecharModalUI()
+    if (uiResolve) uiResolve(false)
+})
 
 // Toast - Notificação confirmando atendimento finalizado
 function mostrarToast() {
@@ -188,8 +225,8 @@ async function carregarAtendimentos(){
     }
 
     const url = params.toString()
-    ? `${API_URL}?${params.toString()}`
-    : API_URL
+    ? `${API_ATENDIMENTO}?${params.toString()}`
+    : API_ATENDIMENTO
 
     const res = await fetch(url, {
         headers: {
@@ -202,7 +239,10 @@ async function carregarAtendimentos(){
         console.error('Erro ao carregar atendimentos:', data)
 
         if (res.status === 401) {
-            alert('Sessão expirada, faça login novamente')
+            await abrirModalUI({
+                title: 'Sessão Expirou',
+                message: 'Faça login novamente'
+            })
             logout()
             return
         }
@@ -218,7 +258,7 @@ async function carregarAtendimentos(){
 
 // Atualização de status caso o atendimento for ser finalizado
 async function AtualizarStatus(){
-    const res = await fetch(`${API_URL}/${atendimentoSelecionado}`, {
+    const res = await fetch(`${API_ATENDIMENTO}/${atendimentoSelecionado}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -229,7 +269,10 @@ async function AtualizarStatus(){
     cardSelecionado.remove()
 
     if (!res.ok) {
-        alert('Erro ao atualizar atendimento')
+        await abrirModalUI({
+            title: 'Erro',
+            message: 'Erro ao atualizar atendimento'
+        })
         return
     }
     carregarAtendimentos()
@@ -238,7 +281,7 @@ async function AtualizarStatus(){
 //Puxar lógica do botão de whatsapp com a mudança de status e estilo
 async function AtendimentoIniciado(id, cardElement, whatsappUrl){
     try{
-        await fetch(`${API_URL}/${id}`, {
+        await fetch(`${API_ATENDIMENTO}/${id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -256,14 +299,17 @@ async function AtendimentoIniciado(id, cardElement, whatsappUrl){
     }
     catch (err){
         console.error('Erro ao iniciar atendimento', err)
-        alert('Erro ao iniciar atendimento')
+        await abrirModalUI({
+            title: 'Erro',
+            message: err.message
+        })
     }
     carregarAtendimentos()
 }
 
 async function buscarAnexos(atendimentoId) {
     try {
-        const res = await fetch(`${API_URL}/${atendimentoId}/anexos`, {
+        const res = await fetch(`${API_ATENDIMENTO}/${atendimentoId}/anexos`, {
             headers: {
                 'Authorization': `Bearer ${getToken()}`
             }
@@ -280,7 +326,7 @@ async function buscarAnexos(atendimentoId) {
 }
 
 async function carregarNotas(id) {
-    const res = await fetch(`${API_URL}/${id}/notas`, {
+    const res = await fetch(`${API_ATENDIMENTO}/${id}/notas`, {
         headers: {
             'Authorization': `Bearer ${getToken()}`
         }
@@ -321,7 +367,7 @@ document.getElementById('salvar-nota')
 
     if (!texto.trim()) return
 
-    await fetch(`${API_URL}/${atendimentoNotaAtual}/notas`, {
+    await fetch(`${API_ATENDIMENTO}/${atendimentoNotaAtual}/notas`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -402,7 +448,10 @@ document.getElementById('loginBtn')?.addEventListener('click', async () => {
         location.reload()
     }
     catch (err){
-        alert(err.message)
+        await abrirModalUI({
+            title: 'Erro',
+            message: err.message
+        })
     }
 })
 
